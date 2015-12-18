@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/activity_header_title"
+        ></include>
+
+    <org.buraktamturk.loadingview.LoadingView
+        android:id="@+id/loadingview"
+        app:lv_loading="false"
+        style="@style/base_style_mw">
+
+    <LinearLayout
+        style="@style/linear_layout_vertical_mw"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            style="@style/linear_layout_horizontal_mw"
+            android:padding="10dp">
+
+            <cn.com.elex.social_life.support.view.EditTextWithDeleteButton
+                android:id="@+id/et_username"
+                style="@style/base_style_mw"
+                android:layout_marginLeft="5dp"
+                app:hintText="@string/please_input_username"
+                app:isShowDeleteBt="true"
+                app:textSize="@dimen/common_text_size"
+                app:digits="@string/register_name_digits"
+                />
+        </LinearLayout>
+        <View
+            style="@style/divider_style"
+          ></View>
+        <LinearLayout
+            style="@style/linear_layout_horizontal_mw"
+            android:padding="10dp">
+
+            <cn.com.elex.social_life.support.view.EditTextWithDeleteButton
+                android:id="@+id/et_pwd"
+                style="@style/base_style_mw"
+                android:layout_marginLeft="5dp"
+                app:hintText="@string/please_input_pwd"
+                app:isShowDeleteBt="true"
+                app:textSize="@dimen/common_text_size"
+                app:digits="@string/register_name_digits"
+                app:password="true"
+                />
+        </LinearLayout>
+        <View
+            style="@style/divider_style"
+            ></View>
+        <LinearLayout
+            style="@style/linear_layout_horizontal_mw"
+            android:padding="10dp">
+
+            <cn.com.elex.social_life.support.view.EditTextWithDeleteButton
+                android:id="@+id/et_confirm_pwd"
+                style="@style/base_style_mw"
+                android:layout_marginLeft="5dp"
+                app:hintText="@string/confirm_password"
+                app:isShowDeleteBt="true"
+                app:textSize="@dimen/common_text_size"
+                app:digits="@string/register_name_digits"
+                app:password="true"
+                />
+        </LinearLayout>
+        <!--<RelativeLayout
+            style="@style/base_style_mw"
+            android:visibility="gone"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/tv_obtain_code"
+                style="@style/sml_text_style_ww"
+                android:layout_alignParentRight="true"
+                android:text="@string/obtain_code"
+                android:textColor="@color/white"
+                android:background="@color/orangle"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                />
+            <cn.com.elex.social_life.support.view.EditTextWithDeleteButton
+                android:layout_toLeftOf="@id/tv_obtain_code"
+                android:id="@+id/et_code"
+                style="@style/base_style_mw"
+                android:layout_marginLeft="6dp"
+                app:textSize="@dimen/common_text_size"
+                app:hintText="@string/please_input_code"
+                />
+        </RelativeLayout>-->
+    </LinearLayout>
+    </org.buraktamturk.loadingview.LoadingView>
+
+    <TextView
+        android:id="@+id/btn_complete"
+        style="@style/big_text_style_ww"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_public_orange"
+        android:text="@string/complete"
+        android:textColor="@color/white" />
+</LinearLayout>

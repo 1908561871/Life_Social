@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_header_title"></include>
+
+    <cn.com.elex.social_life.support.view.imageview.CircleImageView
+        android:id="@+id/user_icon"
+        android:layout_width="@dimen/big_icon_size"
+        android:layout_height="@dimen/big_icon_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/public_default_head" />
+
+    <TextView
+        style="@style/commen_text_style_ww"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/verticl_margin"
+        android:text="@string/select_own_icon"
+        android:textColor="@color/orangle" />
+
+    <LinearLayout
+        style="@style/linear_layout_horizontal_mw"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            style="@style/commen_text_style_ww"
+            android:layout_marginRight="10dp"
+            android:text="@string/nicker"
+            android:textColor="@color/primary_text" />
+
+        <EditText
+            android:id="@+id/nickername"
+            style="@style/base_style_mw.edittext_sml"
+            android:hint="@string/please_input_your_nicker" />
+
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider_style1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"></View>
+
+    <LinearLayout
+        style="@style/linear_layout_horizontal_mw"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/commen_text_style_ww"
+            android:layout_marginRight="10dp"
+            android:text="@string/sex"
+            android:textColor="@color/primary_text" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            style="@style/base_style_ww"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/mail"
+                style="@style/base_style_ww"
+                android:background="@drawable/circle_gray"
+                android:gravity="center"
+                android:button="@null"
+                android:text="@string/mail"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/femail"
+                style="@style/base_style_ww"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:background="@drawable/circle_gray"
+                android:button="@null"
+                android:text="@string/femail"
+                android:textColor="@color/white" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider_style1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"></View>
+
+
+    <TextView
+        android:id="@+id/btn_complete"
+        style="@style/btn_commit_style"
+        android:text="@string/register"
+        />
+
+</LinearLayout>

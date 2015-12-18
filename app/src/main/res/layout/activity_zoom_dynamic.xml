@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/layout_header_title"
+        layout="@layout/activity_header_title"></include>
+
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/log_refresh"
+        style="@style/base_style_mm"
+        android:layout_below="@id/layout_header_title"
+        android:layout_above="@id/footer_input">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/log_recycle"
+            style="@style/base_style_mm"></android.support.v7.widget.RecyclerView>
+
+    </com.cjj.MaterialRefreshLayout>
+
+
+</LinearLayout>

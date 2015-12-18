@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+       style="@style/linear_layout_horizontal_mw">
+       <Button
+           android:id="@+id/cancel"
+           style="@style/base_style_mw"
+           android:text="@string/cancel"
+           android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/confirm"
+            style="@style/base_style_mw"
+            android:text="@string/confirm"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linear_layout_horizontal_mw"
+        android:background="@drawable/texture">
+    <cn.com.elex.social_life.support.view.CropImageView
+        android:layout_gravity="center"
+        android:id="@+id/cropImageView"
+        android:paddingTop="32dp"
+        android:paddingBottom="64dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        custom:cropMode="circle"
+        custom:handleColor="@color/handle"
+        custom:guideColor="@color/guide"
+        custom:frameColor="@color/frame"
+        custom:handleSize="8dp"
+        custom:touchPadding="8dp"
+        custom:handleShowMode="show_always"
+        custom:guideShowMode="show_on_touch"
+        custom:minFrameSize="50dp"
+        custom:frameStrokeWeight="1dp"
+        custom:guideStrokeWeight="1dp"
+        />
+       </LinearLayout>
+</LinearLayout>

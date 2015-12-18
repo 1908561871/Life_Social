@@ -1,0 +1,41 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            ></FrameLayout>
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+          style="@style/linear_layout_vertical_mw"
+            android:background="@color/light_gray"
+           >
+            <View
+                style="@style/divider_style1"
+                ></View>
+        <android.support.v4.app.FragmentTabHost
+            android:id="@+id/fth_tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></FrameLayout>
+        </android.support.v4.app.FragmentTabHost >
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

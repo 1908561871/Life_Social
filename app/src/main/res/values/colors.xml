@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_accent">#7c4dff</color>
+    <color name="color_success">#3CCD88</color>
+    <color name="color_error">#f44336</color>
+<!--    <color name="yellow">#f4c600</color>
+    <color name="blue">#56abe4</color>
+    <color name="ligth_blue">#49c1f3</color>
+    <color name="dark_blue">#3082a4</color>
+    <color name="gray">#9fa98c</color>
+    <color name="light_gray">#a9b7b7</color>-->
+
+
+    <!-- Exceptions colors -->
+    <color name="dynamicbox_exception_button_color">#5fcf80</color>
+    <color name="dynamicbox_exception_button_color_second">#35c460</color>
+    <color name="dynamicbox_exception_title_color">#ff6a7983</color>
+    <color name="dynamicbox_exception_message_color">#8c989e</color>
+
+    //metrailColor
+    <color name="white">#FFFFFF</color>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="gray">#9b9b9b</color>
+    <color name="light_gray">#f8f8f8</color>
+    <color name="light_gray2">#f2f2f2</color>
+    <color name="light_gray3">#a9b7b7</color>
+
+    <color name="light_gray_window">#f4f5ef</color>
+    <color name="light_gray_text">#bfbfbf</color>
+
+
+    <color name="orangle">#F7AA85</color>
+    <color name="red_bg1">#FF3434</color>
+    <color name="red_bg2">#DA1919</color>
+    <color name="red_bg3">#ff6151</color>
+
+
+    <color name="accent">#03A9F4</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#9b9b9b</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#f9f9f9</color>
+    <color name="divider1">#e5e5e3</color>
+    <color name="yellow">#f4c600</color>
+
+    <!--加载框的颜色-->
+
+        <color name="book_loading_background">#f3f3f3</color>
+        <color name="book_loading_book">#ff33b5e5</color>
+        <color name="book_loading_page">#ffffff</color>
+
+    <color name="light_green">#5de3e8</color>
+
+
+    <color name="base">#FFFFFB</color>
+    <color name="overlay">#AA1C1C1C</color>
+    <color name="text">#1C1C1C</color>
+    <color name="handle">#86C166</color>
+    <color name="frame">#86C166</color>
+    <color name="guide">#AA86C166</color>
+    <color name="menu_bg">#FFFFFB</color>
+</resources>

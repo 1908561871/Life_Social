@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        style="@style/base_style_mm"
+        android:layout_weight="3">
+        <cn.com.elex.social_life.support.view.indicator.LinePageIndicator
+            android:id="@+id/indicator"
+            style="@style/base_style_mw"
+            android:layout_alignParentBottom="true"
+            app:fillColor="@color/orangle"
+            app:pageColor="@color/light_gray_text" />
+        <cn.com.elex.social_life.support.view.indicator.InfiniteViewPager
+            android:id="@+id/viewpager"
+            style="@style/base_style_mm" />
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/base_style_mm"
+        android:layout_weight="4"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            style="@style/linear_layout_vertical_mw"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_register"
+                style="@style/base_style_mw"
+                android:layout_height="@dimen/btn_height"
+                android:background="@drawable/btn_public_orange"
+                android:gravity="center"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:textSize="@dimen/mid_text_size" />
+
+            <RelativeLayout
+                style="@style/base_style_mm"
+                android:layout_below="@id/tv_register"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp">
+
+                <ImageView
+                    android:id="@+id/iv_qq_login"
+                    style="@style/base_style_ww"
+                    android:background="@drawable/btn_login_qq" />
+
+                <ImageView
+                    android:id="@+id/iv_weibo_login"
+                    style="@style/base_style_ww"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_login_weibo" />
+
+                <ImageView
+                    android:id="@+id/iv_weichat_login"
+                    style="@style/base_style_ww"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btn_login_wechat" />
+
+                <LinearLayout
+                    style="@style/base_style_ww"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_registered"
+                        style="@style/sml_text_style_ww"
+                        android:text="@string/registered"
+                        android:textColor="@color/light_gray_text" />
+
+                    <TextView
+                        android:id="@+id/tv_login"
+                        style="@style/sml_text_style_ww"
+                        android:layout_toRightOf="@id/tv_registered"
+                        android:text="@string/login"
+                        android:textColor="@color/orangle" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

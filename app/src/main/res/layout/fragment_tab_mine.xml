@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/fragment_header_title"
+        ></include>
+
+<RelativeLayout
+    android:id="@+id/user_info"
+    android:layout_marginTop="@dimen/verticl_margin"
+    style="@style/base_style_mw"
+    android:layout_height="100dp"
+    android:background="@drawable/layout_item_press"
+    android:padding="@dimen/layout_padding"
+    >
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/user_icon"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/big_icon_size"
+        android:layout_height="@dimen/big_icon_size"
+        fresco:placeholderImage="@drawable/default_head"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        />
+
+    <ImageView
+        android:id="@+id/arrow_icon"
+        style="@style/mine_tab_arrow_style"
+        />
+    <TextView
+        android:id="@+id/nickername"
+        style="@style/base_style_ww"
+        android:text="昵称"
+        android:layout_toRightOf="@id/user_icon"
+        />
+
+    <TextView
+        android:id="@+id/sign_message"
+        style="@style/base_style_ww"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="签名信息"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/arrow_icon"
+        android:layout_toRightOf="@id/user_icon"
+        />
+
+</RelativeLayout>
+    <View
+        style="@style/divider_style"></View>
+
+
+<RelativeLayout
+    android:id="@+id/share"
+    android:background="@drawable/layout_item_press"
+    android:layout_marginTop="@dimen/layout_margin"
+    style="@style/base_style_mw"
+    android:layout_height="@dimen/layout_height">
+    <View
+        style="@style/divider_style"></View>
+
+    <ImageView
+        android:id="@+id/icon_share"
+        style="@style/mine_tab_icon_style"
+        android:src="@drawable/icon_account_share"/>
+    <ImageView
+        android:id="@+id/arrow_icon_share"
+        style="@style/mine_tab_arrow_style"
+        />
+
+    <TextView
+        android:id="@+id/tv_share"
+        style="@style/mine_tab_word_style"
+        android:layout_toRightOf="@id/icon_share"
+        android:text="@string/share"
+        />
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/icon_share"
+        style="@style/divider_style"></View>
+</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/zone"
+        android:background="@drawable/layout_item_press"
+        style="@style/base_style_mw"
+        android:layout_height="@dimen/layout_height">
+
+        <ImageView
+            android:id="@+id/icon_zone"
+            style="@style/mine_tab_icon_style"
+            android:src="@drawable/icon_account_zone"/>
+        <ImageView
+            android:id="@+id/arrow_icon_zone"
+            style="@style/mine_tab_arrow_style"
+            />
+
+        <TextView
+            android:id="@+id/tv_zone"
+            style="@style/mine_tab_word_style"
+            android:layout_toRightOf="@id/icon_zone"
+            android:text="@string/zone"
+            />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon_zone"
+            style="@style/divider_style"></View>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/posting"
+        android:background="@drawable/layout_item_press"
+        style="@style/base_style_mw"
+        android:layout_height="@dimen/layout_height">
+
+        <ImageView
+            android:id="@+id/icon_posting"
+            style="@style/mine_tab_icon_style"
+            android:src="@drawable/icon_account_post"/>
+        <ImageView
+            android:id="@+id/arrow_icon_posting"
+            style="@style/mine_tab_arrow_style"
+            />
+
+        <TextView
+            android:id="@+id/tv_posting"
+            style="@style/mine_tab_word_style"
+            android:layout_toRightOf="@id/icon_posting"
+            android:text="@string/posting"
+            />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon_posting"
+            style="@style/divider_style"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/setting"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@drawable/layout_item_press"
+        style="@style/base_style_mw"
+        android:layout_height="@dimen/layout_height">
+
+        <ImageView
+            android:id="@+id/icon_setting"
+            style="@style/mine_tab_icon_style"
+            android:src="@drawable/icon_account_notification"/>
+        <ImageView
+            android:id="@+id/arrow_icon_setting"
+            style="@style/mine_tab_arrow_style"
+            />
+
+        <TextView
+            android:id="@+id/tv_setting"
+            style="@style/mine_tab_word_style"
+            android:layout_toRightOf="@id/icon_setting"
+            android:text="@string/setting"
+            />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon_setting"
+            style="@style/divider_style"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/more"
+        android:background="@drawable/layout_item_press"
+        style="@style/base_style_mw"
+        android:layout_height="@dimen/layout_height">
+
+        <ImageView
+            android:id="@+id/icon_more"
+            style="@style/mine_tab_icon_style"
+            android:src="@drawable/icon_account_more"/>
+        <ImageView
+            android:id="@+id/arrow_icon_more"
+            style="@style/mine_tab_arrow_style"
+            />
+
+        <TextView
+            android:id="@+id/tv_more"
+            style="@style/mine_tab_word_style"
+            android:layout_toRightOf="@id/icon_more"
+            android:text="@string/more"
+            />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon_more"
+            style="@style/divider_style"></View>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

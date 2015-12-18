@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/layout_header_title"
+        layout="@layout/activity_header_title"></include>
+    <EditText
+        android:id="@+id/et_title"
+        style="@style/base_style_mw.edittext_mid"
+        android:layout_below="@+id/layout_header_title"
+        android:padding="@dimen/verticl_margin"
+        android:background="@color/white"
+        android:focusable="true"
+        android:hint="@string/remember_write_title"/>
+    <View
+        android:id="@+id/line1"
+        android:layout_below="@+id/et_title"
+        style="@style/divider_style1"></View>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_alignParentBottom="true"
+       style="@style/linear_layout_vertical_mw">
+    <LinearLayout
+        android:layout_below="@+id/et_content"
+        android:id="@+id/location"
+        style="@style/linear_layout_horizontal_mw"
+        android:padding="@dimen/verticl_margin"
+        android:background="@drawable/layout_item_press"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            style="@style/base_style_ww"
+            android:src="@drawable/icon_weizhi"/>
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/sml_text_style_ww"
+            android:layout_marginLeft="5dp"
+            android:text="@string/locate_position"
+           android:singleLine="true"
+        android:ellipsize="end"
+        />
+    </LinearLayout>
+
+    <View
+        style="@style/divider_style1"></View>
+    <ImageView
+        android:id="@+id/image_select"
+        style="@style/base_style_ww"
+        android:layout_margin="@dimen/verticl_margin"
+        android:src="@drawable/icon_tiaoxuanzhaopian" />
+    <View
+        style="@style/divider_style1"></View>
+     <GridView
+         android:id="@+id/layout_images"
+         android:verticalSpacing="@dimen/grid_space"
+         android:horizontalSpacing="@dimen/grid_space"
+         android:numColumns="4"
+         style="@style/base_style_mw"></GridView>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_below="@+id/line1"
+        android:layout_above="@+id/bottom_layout"
+        android:background="@color/white"
+        style="@style/base_style_mw.edittext_mid"
+        android:layout_height="match_parent"
+        android:padding="@dimen/verticl_margin"
+        android:hint="@string/publish_log_detail"
+        />
+</RelativeLayout>

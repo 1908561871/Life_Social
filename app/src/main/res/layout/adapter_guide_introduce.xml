@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <cn.com.elex.social_life.support.view.imageview.CircleImageView
+        android:id="@+id/icon"
+        android:src="@drawable/introduce_bg2"
+        style="@style/base_style_ww" />
+    <TextView
+        android:id="@+id/tag"
+        style="@style/big_text_style_ww"
+        android:layout_marginTop="20dp"
+        android:text="123"/>
+    <TextView
+        android:id="@+id/introduce"
+        android:layout_marginTop="10dp"
+        style="@style/sml_text_style_ww"
+        />
+</LinearLayout>

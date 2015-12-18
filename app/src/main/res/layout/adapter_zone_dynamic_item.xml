@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/verticl_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sml_icon_size"
+      >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_icon"
+            android:layout_marginRight="@dimen/verticl_margin"
+            android:layout_width="@dimen/sml_icon_size"
+            android:layout_height="@dimen/sml_icon_size" />
+
+        <TextView
+            tools:text="昵称"
+            android:id="@+id/nicker"
+            style="@style/sml_text_style_ww"
+            android:textColor="@color/red_bg3"
+            android:layout_toRightOf="@id/user_icon" />
+
+        <TextView
+            android:id="@+id/posting_time"
+            style="@style/tiny_text_style_ww"
+            tools:text="昵称"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/user_icon" />
+
+        <TextView
+            android:id="@+id/location"
+            style="@style/tiny_text_style_ww"
+            tools:text="地点"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_alignParentBottom="true"
+
+            android:layout_toRightOf="@id/posting_time" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/log_title"
+        style="@style/base_style_mw"
+        android:textSize="@dimen/mid_text_size"
+        android:layout_marginTop="@dimen/verticl_margin"
+        />
+
+    <TextView
+        android:layout_marginTop="@dimen/verticl_margin"
+        android:id="@+id/log_content"
+        style="@style/base_style_mw"
+        android:textSize="@dimen/common_text_size"
+        android:maxLines="8"
+        />
+
+    <GridLayout
+        android:layout_marginTop="@dimen/verticl_margin"
+        android:id="@+id/log_images"
+        android:columnCount="3"
+        style="@style/base_style_mw"></GridLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/verticl_margin"
+        style="@style/linear_layout_horizontal_mw">
+
+        <TextView
+            android:id="@+id/log_comments"
+            android:layout_alignParentRight="true"
+            tools:text="1000"
+            android:layout_centerVertical="true"
+            style="@style/sml_text_style_ww" />
+
+
+        <ImageView
+            android:scaleType="centerInside"
+            android:id="@+id/log_praise"
+            style="@style/sml_text_style_ww"
+            android:paddingRight="7dp"
+            android:paddingTop="2dp"
+            android:src="@drawable/icon_zan"/>
+
+
+        <ImageView
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@id/log_praise"
+            android:scaleType="centerInside"
+            android:id="@+id/log_comment"
+            style="@style/base_style_ww"
+            android:paddingRight="7dp"
+            android:paddingTop="2dp"
+            android:src="@drawable/icon_pinglun"/>
+        <ImageView
+            android:id="@+id/log_look"
+            android:src="@drawable/icon_eyes"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:layout_toLeftOf="@id/log_comments"
+            style="@style/sml_text_style_ww" />
+    </RelativeLayout>
+</LinearLayout>

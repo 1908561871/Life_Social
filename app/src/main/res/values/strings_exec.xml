@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="ACCOUNT_ALREADY_LINKED">该账户已经连接到另一个账户中</string>
+    <string name="CACHE_MISS">缓存不存在</string>
+    <string name="COMMAND_UNAVAILABLE">您试图访问的特性是只能在内部用于测试目的</string>
+    <string name="CONNECTION_FAILED">AVOSCloud服务器的连接失败</string>
+
+</resources>

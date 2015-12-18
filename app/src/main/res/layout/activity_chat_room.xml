@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/layout_header_title"
+    layout="@layout/activity_header_title"></include>
+
+
+    <LinearLayout
+        android:id="@+id/footer_input"
+        style="@style/linear_layout_vertical_mw"
+        android:layout_alignParentBottom="true">
+        <View style="@style/divider_style"></View>
+
+        <include layout="@layout/footer_speak"></include>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            style="@style/linear_layout_vertical_mw"
+            android:layout_height="@dimen/keyboard_height"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+          ></LinearLayout>
+
+    </LinearLayout>
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/refresh_layout"
+        style="@style/base_style_mm"
+        android:layout_below="@id/layout_header_title"
+        android:layout_above="@id/footer_input">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            style="@style/base_style_mm"></android.support.v7.widget.RecyclerView>
+
+    </com.cjj.MaterialRefreshLayout>
+
+</RelativeLayout>

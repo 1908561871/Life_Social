@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+    <com.victor.loading.rotate.RotateLoading
+        custom:loading_color="@color/book_loading_book"
+        android:id="@+id/bookloading"
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
+
+    <TextView
+       style="@style/commen_text_style_ww"
+        android:text="@string/data_loading"/>
+
+
+</LinearLayout>
