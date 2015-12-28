@@ -18,16 +18,19 @@ import butterknife.ButterKnife;
 import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.cloud.ClientUserManager;
 import cn.com.elex.social_life.model.bean.PublishLogBean;
+import cn.com.elex.social_life.model.bean.UserInfo;
+import cn.com.elex.social_life.presenter.ZoneDynamicPresenter;
 import cn.com.elex.social_life.support.util.ToastUtils;
 import cn.com.elex.social_life.support.view.DividerItemDecoration;
 import cn.com.elex.social_life.support.view.load.LoadViewHelper;
 import cn.com.elex.social_life.ui.adapter.ZoneDynamicAdapter;
 import cn.com.elex.social_life.ui.base.BaseActivity;
+import cn.com.elex.social_life.ui.iview.IZoneDynamicView;
 
 /**
  * Created by zhangweibo on 2015/12/4.
  */
-public class ZoneDynamicActivity extends BaseActivity {
+public class ZoneDynamicActivity extends BaseActivity implements IZoneDynamicView{
 
     @Bind(R.id.log_recycle)
     RecyclerView logRecycle;
@@ -36,17 +39,22 @@ public class ZoneDynamicActivity extends BaseActivity {
     private ZoneDynamicAdapter adapter;
     private List<PublishLogBean> publishLogs;
     LoadViewHelper helper;
-
+    //当前页
+    private int pageSize;
+    //每页数量
+    private int pageNum=10;
+    private ZoneDynamicPresenter presenter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zoom_dynamic);
         ButterKnife.bind(this);
+        presenter=new ZoneDynamicPresenter(this);
         setHeader(true,R.string.zone);
         helper=new LoadViewHelper(logRefresh);
         helper.showLoading();
         initRecycleView();
-        getData();
+        initRefreshView();
     }
 
 
@@ -60,45 +68,64 @@ public class ZoneDynamicActivity extends BaseActivity {
     }
 
     public void initRefreshView(){
-        logRefresh.autoRefreshLoadMore();
         logRefresh.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-
-
-
+               pageSize=0;
+               presenter.getData();
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                super.onRefreshLoadMore(materialRefreshLayout);
+                presenter.getData();
             }
         });
-
-
-    }
-
-
-    public void getData(){
-        AVQuery query = AVQuery.getQuery("PublishLogBean");
-        query.whereEqualTo("UserInfo", ClientUserManager.getInstance().obtainCurrentUser());
-        query.include("UserInfo");
-        query.include("imageFiles");
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List list, AVException e) {
-                publishLogs.addAll(list);
-                adapter.notifyDataSetChanged();
-                helper.restore();
-            }
-
-        });
-
+        logRefresh.autoRefresh();
     }
 
 
 
+    @Override
+    public UserInfo getUserInfo() {
+        return ClientUserManager.getInstance().obtainCurrentUser();
+    }
 
+    @Override
+    public void updateLogs() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public List<PublishLogBean> getPublishLog() {
+        return publishLogs;
+    }
+
+    @Override
+    public void closeLoadView() {
+        logRefresh.finishRefreshLoadMore();
+        logRefresh.finishRefresh();
+        helper.restore();
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    @Override
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    @Override
+    public void setPageSize(int pageSize) {
+        this.pageSize=pageSize;
+    }
+
+    @Override
+    public void setLoadMoreStatue(boolean isLoadMore) {
+        logRefresh.setLoadMore(isLoadMore);
+    }
 
 
 }

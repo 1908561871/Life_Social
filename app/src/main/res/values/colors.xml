@@ -44,6 +44,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#f9f9f9</color>
     <color name="divider1">#e5e5e3</color>
+    <color name="divider2">#c4bfbf</color>
     <color name="yellow">#f4c600</color>
 
     <!--加载框的颜色-->

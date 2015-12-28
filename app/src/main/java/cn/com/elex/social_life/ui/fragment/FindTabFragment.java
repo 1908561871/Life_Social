@@ -89,6 +89,7 @@ public class FindTabFragment extends BaseFragment implements IFindNearPeopleView
             public void onClick(UserInfo info) {
 
                 Intent intent=new Intent(getActivity(), NearPeopleDetailActivity.class);
+                intent.putExtra("userName",info.getUsername());
                 startActivity(intent);
             }
         });

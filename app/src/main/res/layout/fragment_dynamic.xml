@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+            <!--style="@style/base_style_mm">-->
+        <!--<com.cjj.MaterialRefreshLayout-->
+            <!--android:id="@+id/log_refresh"-->
+            <!--style="@style/base_style_mm"-->
+            <!--&gt;-->
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/recycle_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>-->
+        <!--</com.cjj.MaterialRefreshLayout>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/log_refresh"
+        style="@style/base_style_mm"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.cjj.MaterialRefreshLayout>
+</LinearLayout>

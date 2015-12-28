@@ -110,10 +110,12 @@
     <string name="remember_write_title">记得写标题哦~</string>
     <string name="publish_log_detail">帖子光着好害羞，有图片或文字才能发布~</string>
     <string name="locate_position">定位当前位置</string>
-
-
     <string name="publish_log">发表日志</string>
     <string name="publish">发布</string>
+
+    <string name="like">喜欢</string>
+    <string name="attention">关注</string>
+
 
 
     <!--    toast信息-->
@@ -138,6 +140,5 @@
     <string name="title_blank_error">标题不能为空</string>
     <string name="content_blank_error">内容不能为空</string>
     <string name="please_obtain_location">请获取当前位置</string>
-
 
 </resources>
