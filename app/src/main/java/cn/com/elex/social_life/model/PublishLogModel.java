@@ -51,7 +51,7 @@ public class PublishLogModel implements  IPublishLogModel {
 
     @Override
     public void commitData(final PublishLogBean data, final CustomSaveCallBack callback) {
-        if (data.getImageFiles().size()>0){
+        if (data.getImageFiles()!=null&&data.getImageFiles().size()>0){
             try {
                 AVObject.saveFileBeforeSave(data.getImageFiles(), false, new CustomSaveCallBack() {
                     @Override

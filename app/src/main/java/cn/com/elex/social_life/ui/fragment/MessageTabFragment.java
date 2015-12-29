@@ -4,7 +4,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.cjj.MaterialRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,8 @@ import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.model.bean.FragmentMessage;
 import cn.com.elex.social_life.support.view.CustomDialog;
 import cn.com.elex.social_life.support.view.DividerItemDecoration;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
 import cn.com.elex.social_life.ui.activity.AddFriendActivity;
-import cn.com.elex.social_life.ui.activity.ChatRoomActivity;
-import cn.com.elex.social_life.ui.adapter.ChatRoomMsgAdapter;
 import cn.com.elex.social_life.ui.adapter.MessageAdapter;
 import cn.com.elex.social_life.ui.base.BaseFragment;
 

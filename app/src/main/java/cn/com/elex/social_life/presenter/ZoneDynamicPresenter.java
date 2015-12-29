@@ -34,6 +34,12 @@ public class ZoneDynamicPresenter {
             @Override
             public void done(List list, AVException e) {
                 view.closeLoadView();
+
+                if (e!=null){
+                    ToastUtils.show(e.getMessage());
+                    return;
+                }
+                view.closeLoadView();
                 if (list.size()<view.getPageNum()) {
                     view.setLoadMoreStatue(false);
                 }

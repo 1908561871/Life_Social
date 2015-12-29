@@ -25,11 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +42,8 @@ import cn.com.elex.social_life.support.callback.MsgCallBack;
 import cn.com.elex.social_life.support.event.ChatMsgEvent;
 import cn.com.elex.social_life.support.util.BitmapUtil;
 import cn.com.elex.social_life.support.util.ToastUtils;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshListener;
 import cn.com.elex.social_life.ui.adapter.ChatRoomMsgAdapter;
 import cn.com.elex.social_life.ui.adapter.EmoticonsGridAdapter;
 import cn.com.elex.social_life.ui.adapter.EmoticonsPagerAdapter;
@@ -124,9 +121,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     public void initData() {
         members = Arrays.asList(getIntent().getStringArrayExtra("member"));
         messages = new ArrayList<>();
-        chatMessage = new ChatMessage();
-        chatMessage.setNickName(ClientUserManager.getInstance().obtainCurrentUser().getUsername());
-        chatMessage.setSendType(ChatMsgSendType.OWN);
+
         popUpView = getLayoutInflater().inflate(R.layout.emoticons_popup, null);
         chatRoomMsgAdapter = new ChatRoomMsgAdapter(this, messages);
         recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -278,6 +273,9 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     @OnClick(R.id.bt_send_msg)
     public void replyContent() {
         String sp = Html.toHtml(content.getText());
+        chatMessage = new ChatMessage();
+        chatMessage.setNickName(ClientUserManager.getInstance().obtainCurrentUser().getUsername());
+        chatMessage.setSendType(ChatMsgSendType.OWN);
         chatMessage.setContent(sp);
         refreshChatMsg(chatMessage);
         if (conversation == null) {

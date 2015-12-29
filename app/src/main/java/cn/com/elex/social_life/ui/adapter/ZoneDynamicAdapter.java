@@ -65,8 +65,10 @@ public class ZoneDynamicAdapter extends RecyclerView.Adapter<ZoneDynamicAdapter.
         holder.location.setText(data.getLocation().getProvince() + " " + data.getLocation().getCity());
         holder.logTitle.setText(data.getTitle());
         holder.logContent.setText(data.getContent());
-        setLogImage(holder.logImages, data.getImageFiles());
-        setImageOnclickListen(holder.logImages, data.getImageFiles());
+        if (data.getImageFiles()!=null){
+            setLogImage(holder.logImages, data.getImageFiles());
+            setImageOnclickListen(holder.logImages, data.getImageFiles());
+        }
     }
 
 

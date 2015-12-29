@@ -4,11 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.FindCallback;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +15,9 @@ import cn.com.elex.social_life.cloud.ClientUserManager;
 import cn.com.elex.social_life.model.bean.PublishLogBean;
 import cn.com.elex.social_life.model.bean.UserInfo;
 import cn.com.elex.social_life.presenter.ZoneDynamicPresenter;
-import cn.com.elex.social_life.support.util.ToastUtils;
 import cn.com.elex.social_life.support.view.DividerItemDecoration;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshListener;
 import cn.com.elex.social_life.support.view.load.LoadViewHelper;
 import cn.com.elex.social_life.ui.adapter.ZoneDynamicAdapter;
 import cn.com.elex.social_life.ui.base.BaseActivity;
@@ -68,11 +64,13 @@ public class ZoneDynamicActivity extends BaseActivity implements IZoneDynamicVie
     }
 
     public void initRefreshView(){
+        logRefresh.setLoadMore(true);
         logRefresh.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-               pageSize=0;
-               presenter.getData();
+                pageSize=0;
+                logRefresh.setLoadMore(true);
+                presenter.getData();
             }
 
             @Override

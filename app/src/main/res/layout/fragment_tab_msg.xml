@@ -7,7 +7,7 @@
 
     <include layout="@layout/fragment_header_title"></include>
 
-    <com.cjj.MaterialRefreshLayout
+    <cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout
         android:id="@+id/refresh_layout"
         style="@style/base_style_mm"
         app:overlay="false">
@@ -17,7 +17,7 @@
             style="@style/base_style_mm"
 
             ></android.support.v7.widget.RecyclerView>
-    </com.cjj.MaterialRefreshLayout>
+    </cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout>
 
 
 </LinearLayout>

@@ -10,9 +10,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.LogUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -89,15 +91,14 @@ public class NearPeopleDetailActivity extends BaseActivity implements AppBarLayo
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
 
-//        if (i==0)
-//        {
-//            ((DynamicFragment)fragments.get(0)).setRefresh(true);
-//
-//        }else {
-//            ((DynamicFragment)fragments.get(0)).setRefresh(false);
-//
-//        }
-        ((DynamicFragment)fragments.get(0)).setRefresh(false);
+        if (i==0)
+        {
+            ((DynamicFragment)fragments.get(0)).setRefresh(true);
+
+        }else {
+            ((DynamicFragment)fragments.get(0)).setRefresh(false);
+
+        }
 
     }
 

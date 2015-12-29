@@ -1,28 +1,20 @@
 package cn.com.elex.social_life.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.model.bean.UserInfo;
 import cn.com.elex.social_life.presenter.FindNearPeoplePresenter;
-import cn.com.elex.social_life.support.util.ToastUtils;
 import cn.com.elex.social_life.support.view.DividerGridItemDecoration;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
+import cn.com.elex.social_life.support.view.cjj.MaterialRefreshListener;
 import cn.com.elex.social_life.ui.activity.NearPeopleDetailActivity;
 import cn.com.elex.social_life.ui.adapter.FindNearPeopleAdapter;
 import cn.com.elex.social_life.ui.base.BaseFragment;

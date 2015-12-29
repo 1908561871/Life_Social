@@ -24,7 +24,7 @@
         <!--</com.cjj.MaterialRefreshLayout>-->
         <!--</LinearLayout>-->
     <!--</android.support.v4.widget.NestedScrollView>-->
-    <com.cjj.MaterialRefreshLayout
+    <cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout
         android:id="@+id/log_refresh"
         style="@style/base_style_mm"
         >
@@ -32,5 +32,5 @@
             android:id="@+id/recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-    </com.cjj.MaterialRefreshLayout>
+    </cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout>
 </LinearLayout>

@@ -6,7 +6,7 @@
         android:id="@+id/layout_header_title"
         layout="@layout/activity_header_title"></include>
 
-    <com.cjj.MaterialRefreshLayout
+    <cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout
         android:id="@+id/log_refresh"
         style="@style/base_style_mm"
         android:layout_below="@id/layout_header_title"
@@ -16,7 +16,7 @@
             android:id="@+id/log_recycle"
             style="@style/base_style_mm"></android.support.v7.widget.RecyclerView>
 
-    </com.cjj.MaterialRefreshLayout>
+    </cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout>
 
 
 </LinearLayout>

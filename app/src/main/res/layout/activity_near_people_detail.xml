@@ -56,6 +56,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
+        android:paddingBottom="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
        style="@style/base_style_mm"></android.support.v4.view.ViewPager>
 
@@ -93,8 +94,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         >
-
         <LinearLayout
            android:layout_weight="1"
             android:gravity="center"

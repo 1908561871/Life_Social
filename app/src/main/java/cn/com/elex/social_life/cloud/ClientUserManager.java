@@ -42,6 +42,8 @@ public class ClientUserManager {
         return client;
     }
 
+
+
     public  UserInfo  obtainCurrentUser(){
 
         if (user==null){
@@ -107,5 +109,7 @@ public class ClientUserManager {
     }
 
 
-
+    public void setClient(AVIMClient client) {
+        this.client = client;
+    }
 }

@@ -39,7 +39,6 @@ public class NearPeopleDetailPresenter {
             @Override
             public void failure(String msg) {
                 ToastUtils.show(msg);
-
             }
         });
 

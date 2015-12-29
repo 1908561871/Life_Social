@@ -63,4 +63,9 @@
     <color name="frame">#86C166</color>
     <color name="guide">#AA86C166</color>
     <color name="menu_bg">#FFFFFB</color>
+
+    <color name="material_red">#ffF44336</color>
+    <color name="material_green">#ff4CAF50</color>
+    <color name="material_blue">#ff03A9F4</color>
+    <color name="material_yellow">#ffFFEB3B</color>
 </resources>

@@ -17,7 +17,7 @@ public class ZoneDynamicModel implements IZoneDynamicModel{
         query.include("UserInfo");
         query.include("imageFiles");
         query.setLimit(pageNum);
-        query.skip(pageSize);
+        query.skip(pageSize*pageNum);
         query.findInBackground(callback);
     }
 }
