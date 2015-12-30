@@ -1,5 +1,10 @@
 package cn.com.elex.social_life.ui.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +29,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -333,8 +339,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      */
     @Subscribe
     public void onReceiverMessage(ChatMsgEvent event) {
-
-        ChatMessage msg = event.getMsg();
+        ChatMessage msg= JSON.parseObject(event.getMsg().getContent(),ChatMessage.class);
         msg.setSendType(ChatMsgSendType.OPPOSITE);
         refreshChatMsg(msg);
 
@@ -342,19 +347,23 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     }
 
 
+    /**
+     *创建对话
+     */
     public void createConverstation() {
-        ClientUserManager.getInstance().obtainCurrentClentUser().createConversation(members, "conversation", null,true,new CustomAVIMConversationCreatedCallback() {
+        ClientUserManager.getInstance().obtainCurrentClentUser().createConversation(members, "conversation", null,false,true,new CustomAVIMConversationCreatedCallback() {
             @Override
             protected void success(AVIMConversation avimConversation) {
-                ToastUtils.show(ChatRoomActivity.this, "对话创建成功");
                 conversation = avimConversation;
             }
             @Override
             protected void failure(String error) {
-                ToastUtils.show(ChatRoomActivity.this, "对话创建失败");
             }
         });
-
     }
+
+
+
+
 
 }

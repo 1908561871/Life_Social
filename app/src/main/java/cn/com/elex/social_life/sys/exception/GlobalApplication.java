@@ -122,7 +122,7 @@ public class GlobalApplication extends Application {
 	 */
     public void resignReceiver(){
 
-		AVIMMessageManager.registerDefaultMessageHandler(new IMMessageReceiver());
+		AVIMMessageManager.registerDefaultMessageHandler(new IMMessageReceiver(this));
 
 	}
 

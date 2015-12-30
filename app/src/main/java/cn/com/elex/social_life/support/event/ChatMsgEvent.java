@@ -1,6 +1,7 @@
 package cn.com.elex.social_life.support.event;
 
 import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMMessage;
 
 import cn.com.elex.social_life.model.bean.ChatMessage;
 
@@ -9,11 +10,11 @@ import cn.com.elex.social_life.model.bean.ChatMessage;
  */
 public class ChatMsgEvent {
 
-   private ChatMessage msg;
+   private AVIMMessage msg;
 
     private AVIMConversation conversation;
 
-    public ChatMsgEvent(ChatMessage msg,AVIMConversation conversation) {
+    public ChatMsgEvent(AVIMMessage msg,AVIMConversation conversation) {
         this.msg = msg;
         this.conversation=conversation;
     }
@@ -22,7 +23,7 @@ public class ChatMsgEvent {
         return conversation;
     }
 
-    public ChatMessage getMsg() {
+    public AVIMMessage getMsg() {
         return msg;
     }
 }
