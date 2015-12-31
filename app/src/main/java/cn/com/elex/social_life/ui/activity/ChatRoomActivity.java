@@ -339,13 +339,13 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      */
     @Subscribe
     public void onReceiverMessage(ChatMsgEvent event) {
-        ChatMessage msg= JSON.parseObject(event.getMsg().getContent(),ChatMessage.class);
-        msg.setSendType(ChatMsgSendType.OPPOSITE);
-        refreshChatMsg(msg);
-
-
+        if (event.getConversation().getConversationId().equals(conversation.getConversationId()))
+        {
+            ChatMessage msg= JSON.parseObject(event.getMsg().getContent(),ChatMessage.class);
+            msg.setSendType(ChatMsgSendType.OPPOSITE);
+            refreshChatMsg(msg);
+        }
     }
-
 
     /**
      *创建对话

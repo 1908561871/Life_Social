@@ -1,7 +1,5 @@
 package cn.com.elex.social_life.model;
 
-import com.avos.avoscloud.im.v2.AVIMConversation;
-
 import cn.com.elex.social_life.model.bean.ChatMessage;
 import cn.com.elex.social_life.model.imodel.IChatRoomModel;
 
@@ -11,6 +9,8 @@ import cn.com.elex.social_life.model.imodel.IChatRoomModel;
 public class ChatRoomModel  implements  IChatRoomModel{
     @Override
     public void sendMessage(ChatMessage msg) {
+
+
 
     }
 

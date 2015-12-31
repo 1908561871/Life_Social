@@ -1,5 +1,7 @@
 package cn.com.elex.social_life.cloud;
 
+import android.content.Context;
+
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
@@ -9,6 +11,7 @@ import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.model.bean.UserInfo;
 import cn.com.elex.social_life.support.callback.IMLoginCallBack;
 import cn.com.elex.social_life.sys.exception.GlobalApplication;
+import cn.com.elex.social_life.sys.receiver.im.AVImClientReceiver;
 
 /**
  * Created by zhangweibo on 2015/11/5.
@@ -19,6 +22,7 @@ public class ClientUserManager {
 
     AVUser user;
 
+    AVImClientReceiver avImClientReceiver;
 
     private static class SingleClientUserManager {
         private static final ClientUserManager instance = new ClientUserManager();
@@ -37,7 +41,7 @@ public class ClientUserManager {
 
         if (client==null){
             if (AVUser.getCurrentUser()!=null)
-            client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername());
+            client = AVIMClient.getInstance(AVUser.getCurrentUser().getUsername(),"ANDROID");
         }
         return client;
     }
@@ -64,11 +68,15 @@ public class ClientUserManager {
      * @param callBack
      */
 
-    public  void imLogin(IMLoginCallBack callBack){
+    public  void imLogin(IMLoginCallBack callBack, Context context){
         AVIMClient client=obtainCurrentClentUser();
         if (client!=null)
         {
             client.open(callBack);
+            if (avImClientReceiver==null){
+                avImClientReceiver=new AVImClientReceiver(context);
+            }
+            client.setClientEventHandler(avImClientReceiver);
         }
     }
 

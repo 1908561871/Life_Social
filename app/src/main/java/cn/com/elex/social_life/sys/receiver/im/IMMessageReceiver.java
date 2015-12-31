@@ -49,12 +49,11 @@ public  class IMMessageReceiver extends AVIMMessageHandler {
     public void onMessage(AVIMMessage message,AVIMConversation conversation,AVIMClient client){
 
         Log.w("IMMessageReceiver","onMessage:"+message.toString());
-        notification(        message.getFrom());
+        notification(  message.getFrom());
         //转化为message
      //   ChatMessage msg= JSON.parseObject(message.getContent(),ChatMessage.class);
         ChatMsgEvent event=new ChatMsgEvent(message,conversation);
         EventBus.getDefault().post(event);
-
 
 
     }

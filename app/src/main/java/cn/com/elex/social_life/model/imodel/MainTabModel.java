@@ -1,5 +1,7 @@
 package cn.com.elex.social_life.model.imodel;
 
+import android.content.Context;
+
 import com.avos.avoscloud.AVGeoPoint;
 
 import cn.com.elex.social_life.cloud.ClientUserManager;
@@ -17,9 +19,9 @@ public  class MainTabModel implements IMainTabModel {
 
 
     @Override
-    public void loginIM(IMLoginCallBack callBack) {
+    public void loginIM(IMLoginCallBack callBack,Context context) {
         //登录IM
-        ClientUserManager.getInstance().imLogin(callBack);
+        ClientUserManager.getInstance().imLogin(callBack,context);
     }
 
     @Override

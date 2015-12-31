@@ -1,6 +1,8 @@
 package cn.com.elex.social_life.presenter;
 
 
+import android.content.Context;
+
 import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.model.imodel.IMainTabModel;
 import cn.com.elex.social_life.model.imodel.MainTabModel;
@@ -36,7 +38,7 @@ public class MainTabPresenter {
                 ToastUtils.show(R.string.im_login_failure);
 
             }
-        });
+        }, (Context) mainTabView);
 
     }
 

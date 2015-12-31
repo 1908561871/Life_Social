@@ -140,6 +140,7 @@
     <string name="title_blank_error">标题不能为空</string>
     <string name="content_blank_error">内容不能为空</string>
     <string name="please_obtain_location">请获取当前位置</string>
+    <string name="client_offline_warn">您的账号在其他设备上登录，是否重新登录？</string>
     <integer-array name="material_colors">
         <item>@color/material_red</item>
         <item>@color/material_green</item>

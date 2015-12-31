@@ -5,22 +5,34 @@ package cn.com.elex.social_life.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
+
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import cn.com.elex.social_life.R;
+import cn.com.elex.social_life.cloud.ClientUserManager;
+import cn.com.elex.social_life.support.callback.IMLoginCallBack;
+import cn.com.elex.social_life.support.event.IMClientOffLineEvent;
+import cn.com.elex.social_life.support.view.dialog.base.BounceTopEnter;
+import cn.com.elex.social_life.support.view.dialog.base.NormalDialog;
+import cn.com.elex.social_life.support.view.dialog.base.OnBtnClickL;
+import cn.com.elex.social_life.support.view.dialog.base.SlideBottomExit;
 import cn.com.elex.social_life.sys.exception.GlobalApplication;
+import cn.com.elex.social_life.ui.activity.GuideActivity;
 import cn.com.elex.social_life.ui.activity.MainTabActivity;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
@@ -42,6 +54,7 @@ public class BaseActivity extends FragmentActivity{
     protected Handler mHandler = new SafeHandler(this);
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		app = (GlobalApplication) this.getApplication();
 		addActivityToManager(this);
 		EventBus.getDefault().register(this);
@@ -242,14 +255,13 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 	}
 
 
-	public void finishOtherActivty(){
+	public void goToMainTabPager(){
 
 		for (int i = app.activityManager.size() - 1; i >= 0; i--) {
 			if (!(app.activityManager.get(i) instanceof MainTabActivity))
 			{
 				app.activityManager.get(i).finish();
 				app.activityManager.remove(i);
-
 			}
 
 		}
@@ -271,6 +283,80 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 
 	}
 
+	@Subscribe
+	public void clientOffLine(IMClientOffLineEvent event)
+	{
+
+		if (this.getClass().isInstance(app.activityManager.get(app.activityManager.size()-1)) ){
+			showClientOffDialog(event.getAvimClient());
+		}
+
+	}
+
+
+
+
+	private void showClientOffDialog(AVIMClient avimClient) {
+		BounceTopEnter bas_in = new BounceTopEnter();
+		SlideBottomExit bas_out = new SlideBottomExit();
+		final NormalDialog dialog = new NormalDialog(this);
+		dialog.content("您的账号在其他设备上登录，是否重新登录？")//
+				.style(NormalDialog.STYLE_TWO)//
+				.titleTextSize(23)//
+				.showAnim(bas_in)//
+				.dismissAnim(bas_out)//
+				.show();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setOnBtnClickL(
+				new OnBtnClickL() {
+					@Override
+					public void onBtnClick() {
+						AVUser.logOut();
+						goToGuidePager();
+						dialog.dismiss();
+					}
+				},
+				new OnBtnClickL() {
+					@Override
+					public void onBtnClick() {
+						reLogin();
+						dialog.dismiss();
+					}
+				});
+
+		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+			@Override
+			public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+				return true;
+			}
+		});
+	}
+
+
+	public void goToGuidePager(){
+
+		Intent intent=new Intent(this, GuideActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		this.startActivity(intent);
+
+	}
+
+
+	public void reLogin(){
+
+		ClientUserManager.getInstance().imLogin(new IMLoginCallBack() {
+			@Override
+			public void onsuccess() {
+
+			}
+
+			@Override
+			public void failure(String error) {
+
+			}
+		},this);
+
+	}
 
 
 }

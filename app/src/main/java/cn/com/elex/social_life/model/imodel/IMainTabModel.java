@@ -10,7 +10,7 @@ import cn.com.elex.social_life.support.callback.IMLoginCallBack;
 public interface IMainTabModel {
 
 
-     void loginIM(IMLoginCallBack callBack);
+     void loginIM(IMLoginCallBack callBack,Context context);
      void exit(IMLoginCallBack callBack);
      void updateLocation();
 }

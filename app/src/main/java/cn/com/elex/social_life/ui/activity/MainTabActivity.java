@@ -8,16 +8,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.elex.social_life.R;
-import cn.com.elex.social_life.cloud.ClientUserManager;
 import cn.com.elex.social_life.model.bean.MainTab;
 import cn.com.elex.social_life.presenter.MainTabPresenter;
-import cn.com.elex.social_life.support.callback.IMLoginCallBack;
 import cn.com.elex.social_life.support.util.ToastUtils;
 import cn.com.elex.social_life.ui.base.BaseActivity;
 import cn.com.elex.social_life.ui.iview.IMainTabView;
@@ -38,7 +35,7 @@ public class MainTabActivity extends BaseActivity implements IMainTabView,TabHos
         ButterKnife.bind(this);
         initTab();
         presenter=new MainTabPresenter(this);
-        finishOtherActivty();
+        goToMainTabPager();
         //初始化数据加载
         presenter.initLoad();
     }
