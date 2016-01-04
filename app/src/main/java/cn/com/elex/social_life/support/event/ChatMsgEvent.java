@@ -3,8 +3,6 @@ package cn.com.elex.social_life.support.event;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 
-import cn.com.elex.social_life.model.bean.ChatMessage;
-
 /**聊天室事件
  * Created by zhangweibo on 2015/8/3.
  */

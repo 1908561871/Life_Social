@@ -1,13 +1,5 @@
 package cn.com.elex.social_life.ui.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -31,6 +23,8 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMMessage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,14 +34,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.elex.social_life.R;
 import cn.com.elex.social_life.cloud.ClientUserManager;
-import cn.com.elex.social_life.cloud.im.message.MessageSendCotrol;
-import cn.com.elex.social_life.model.bean.ChatMessage;
-import cn.com.elex.social_life.model.bean.ChatMsgSendType;
+import cn.com.elex.social_life.presenter.ChatRoomPresenter;
 import cn.com.elex.social_life.support.callback.CustomAVIMConversationCreatedCallback;
-import cn.com.elex.social_life.support.callback.MsgCallBack;
 import cn.com.elex.social_life.support.event.ChatMsgEvent;
 import cn.com.elex.social_life.support.util.BitmapUtil;
-import cn.com.elex.social_life.support.util.ToastUtils;
 import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
 import cn.com.elex.social_life.support.view.cjj.MaterialRefreshListener;
 import cn.com.elex.social_life.ui.adapter.ChatRoomMsgAdapter;
@@ -80,7 +70,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     @Bind(R.id.parent_layout)
     RelativeLayout parentLayout;
     private ChatRoomMsgAdapter chatRoomMsgAdapter;
-    private List<ChatMessage> messages;
+    private List<AVIMMessage> messages;
     private PopupWindow popupWindow;
     //表情
     private View popUpView;
@@ -96,14 +86,21 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     private List<String> members;
 
+    private int pageNum=20;
 
-    private ChatMessage chatMessage;
+    private int pageSize;
+
+    private AVIMMessage chatMessage;
+
+    private ChatRoomPresenter presenter;
+
+    private String userName;
 
     Html.ImageGetter imageGetter = new Html.ImageGetter() {
         public Drawable getDrawable(String source) {
             Drawable d;
             d = new BitmapDrawable(getResources(), BitmapUtil.getBitmapEmojiFromAssert(source));
-            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+            d.setBounds(0, 0, (int) (d.getIntrinsicWidth()*1.5), (int) (d.getIntrinsicHeight()*1.5));
             return d;
         }
     };
@@ -113,6 +110,8 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         ButterKnife.bind(this);
+        presenter=new ChatRoomPresenter(this);
+        userName=ClientUserManager.getInstance().obtainCurrentUser().getUsername();
         init();
     }
 
@@ -129,7 +128,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         messages = new ArrayList<>();
 
         popUpView = getLayoutInflater().inflate(R.layout.emoticons_popup, null);
-        chatRoomMsgAdapter = new ChatRoomMsgAdapter(this, messages);
+        chatRoomMsgAdapter = new ChatRoomMsgAdapter(this, messages,userName);
         recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycleView.setAdapter(chatRoomMsgAdapter);
 
@@ -279,29 +278,10 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     @OnClick(R.id.bt_send_msg)
     public void replyContent() {
         String sp = Html.toHtml(content.getText());
-        chatMessage = new ChatMessage();
-        chatMessage.setNickName(ClientUserManager.getInstance().obtainCurrentUser().getUsername());
-        chatMessage.setSendType(ChatMsgSendType.OWN);
-        chatMessage.setContent(sp);
-        refreshChatMsg(chatMessage);
-        if (conversation == null) {
-            createConverstation();
-        } else {
-            MessageSendCotrol.sendTextMsg(conversation, new MsgCallBack() {
-                @Override
-                public void success() {
-                    content.setText("");
-                    ToastUtils.show(ChatRoomActivity.this, "信息发送成功");
-                }
-
-                @Override
-                public void failure(String msg) {
-
-                }
-            }, chatMessage);
-        }
+        AVIMMessage message=new AVIMMessage();
+        message.setContent(sp);
+        presenter.sendMessage(message);
     }
-
 
     @OnClick(R.id.iv_face)
     public void clickFaceAction() {
@@ -324,13 +304,49 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         return null;
     }
 
+
     @Override
-    public void refreshChatMsg(ChatMessage msg) {
+    public void refreshChatMsg(AVIMMessage msg) {
         messages.add(msg);
         chatRoomMsgAdapter.notifyDataSetChanged();
         recycleView.smoothScrollToPosition(chatRoomMsgAdapter.getItemCount() - 1);
     }
 
+    @Override
+    public void updateHistory(List<AVIMMessage> msgs) {
+        messages.addAll(0,msgs);
+        chatRoomMsgAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public AVIMConversation getAVIMConversation() {
+        return conversation;
+    }
+
+    @Override
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    @Override
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    @Override
+    public void closeLoadMore() {
+        refreshLayout.setCanRefresh(false);
+    }
+
+    @Override
+    public void finishLoadMore() {
+        refreshLayout.finishRefresh();
+    }
+
+    @Override
+    public void clearContent() {
+        content.setText("");
+    }
 
     /**
      * 接收消息
@@ -341,9 +357,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     public void onReceiverMessage(ChatMsgEvent event) {
         if (event.getConversation().getConversationId().equals(conversation.getConversationId()))
         {
-            ChatMessage msg= JSON.parseObject(event.getMsg().getContent(),ChatMessage.class);
-            msg.setSendType(ChatMsgSendType.OPPOSITE);
-            refreshChatMsg(msg);
+            refreshChatMsg(event.getMsg());
         }
     }
 
@@ -355,15 +369,12 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
             @Override
             protected void success(AVIMConversation avimConversation) {
                 conversation = avimConversation;
+                presenter.obtainHistory(null);
             }
             @Override
             protected void failure(String error) {
             }
         });
     }
-
-
-
-
 
 }

@@ -14,7 +14,7 @@ import cn.com.elex.social_life.R;
 public class EmoticonsPagerAdapter extends PagerAdapter {
 
 	ArrayList<String> emoticons;
-	private static final int NO_OF_EMOTICONS_PER_PAGE = 20;
+	private static final int NO_OF_EMOTICONS_PER_PAGE = 30;
 	FragmentActivity mActivity;
 	EmoticonsGridAdapter.KeyClickListener mListener;
 

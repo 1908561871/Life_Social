@@ -35,7 +35,7 @@ public class MainTabActivity extends BaseActivity implements IMainTabView,TabHos
         ButterKnife.bind(this);
         initTab();
         presenter=new MainTabPresenter(this);
-        goToMainTabPager();
+        delActivityExceptTarget(MainTabActivity.class);
         //初始化数据加载
         presenter.initLoad();
     }

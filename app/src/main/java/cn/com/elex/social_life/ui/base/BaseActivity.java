@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,7 +34,6 @@ import cn.com.elex.social_life.support.view.dialog.base.OnBtnClickL;
 import cn.com.elex.social_life.support.view.dialog.base.SlideBottomExit;
 import cn.com.elex.social_life.sys.exception.GlobalApplication;
 import cn.com.elex.social_life.ui.activity.GuideActivity;
-import cn.com.elex.social_life.ui.activity.MainTabActivity;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import dmax.dialog.SpotsDialog;
@@ -51,13 +51,17 @@ public class BaseActivity extends FragmentActivity{
 	private boolean isShowNet;
 	private SpotsDialog dialog;
 
+	private boolean isClentOff;
     protected Handler mHandler = new SafeHandler(this);
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		app = (GlobalApplication) this.getApplication();
 		addActivityToManager(this);
 		EventBus.getDefault().register(this);
+		if (isClentOff)
+		{
+			userLogOut();
+		}
 	}
 	
 	protected  void addActivityToManager(Activity act) {
@@ -79,7 +83,22 @@ public class BaseActivity extends FragmentActivity{
         	app.activityManager.remove(act);
         }
 	}
-	
+
+	protected  void delActivityExceptTarget(Class target){
+
+		for (int i = app.activityManager.size() - 1; i >= 0; i--) {
+
+			if (!app.activityManager.get(i).getClass().getName().equals(target.getName()))
+			{
+				app.activityManager.get(i).finish();
+				app.activityManager.remove(i);
+			}
+
+		}
+
+
+	}
+
 
 	protected String getCurrentActivityName() {
 		int size = app.activityManager.size();
@@ -187,7 +206,7 @@ public class BaseActivity extends FragmentActivity{
 		setHeader(isBack,getResources().getString(titleName));
 	}
 
-		public void setHeader(String titleName){
+	public void setHeader(String titleName){
 
 	setHeader(false, titleName);
 
@@ -255,17 +274,6 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 	}
 
 
-	public void goToMainTabPager(){
-
-		for (int i = app.activityManager.size() - 1; i >= 0; i--) {
-			if (!(app.activityManager.get(i) instanceof MainTabActivity))
-			{
-				app.activityManager.get(i).finish();
-				app.activityManager.remove(i);
-			}
-
-		}
-	}
 
 
 	public void showSoftInput(View view){
@@ -287,7 +295,8 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 	public void clientOffLine(IMClientOffLineEvent event)
 	{
 
-		if (this.getClass().isInstance(app.activityManager.get(app.activityManager.size()-1)) ){
+		if (this.getClass().getName().equals((app.activityManager.get(app.activityManager.size()-1).getClass().getName()))){
+			isClentOff=true;
 			showClientOffDialog(event.getAvimClient());
 		}
 
@@ -307,12 +316,12 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 				.dismissAnim(bas_out)//
 				.show();
 		dialog.setCanceledOnTouchOutside(false);
+		dialog.btnText("退出","重新登录");
 		dialog.setOnBtnClickL(
 				new OnBtnClickL() {
 					@Override
 					public void onBtnClick() {
-						AVUser.logOut();
-						goToGuidePager();
+						userLogOut();
 						dialog.dismiss();
 					}
 				},
@@ -323,7 +332,6 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 						dialog.dismiss();
 					}
 				});
-
 		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
@@ -333,13 +341,17 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 	}
 
 
-	public void goToGuidePager(){
-
-		Intent intent=new Intent(this, GuideActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		this.startActivity(intent);
-
+	public void userLogOut(){
+		AVUser.logOut();
+		ClientUserManager.getInstance().clearUserMsg();
+		goToPagerByIntent(GuideActivity.class);
+		delActivityExceptTarget(GuideActivity.class);
 	}
+
+
+
+
+
 
 
 	public void reLogin(){
@@ -355,7 +367,6 @@ public void setHeader(boolean isBack ,String titleName,String ActionName,View.On
 
 			}
 		},this);
-
 	}
 
 

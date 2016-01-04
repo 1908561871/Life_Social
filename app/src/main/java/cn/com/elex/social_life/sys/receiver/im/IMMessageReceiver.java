@@ -8,20 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageHandler;
 
-import java.util.List;
-
 import cn.com.elex.social_life.R;
-import cn.com.elex.social_life.model.bean.ChatMessage;
 import cn.com.elex.social_life.support.event.ChatMsgEvent;
-import cn.com.elex.social_life.sys.exception.GlobalApplication;
 import cn.com.elex.social_life.ui.activity.ChatRoomActivity;
-import cn.com.elex.social_life.ui.activity.MainActivity;
 import de.greenrobot.event.EventBus;
 
 /**
