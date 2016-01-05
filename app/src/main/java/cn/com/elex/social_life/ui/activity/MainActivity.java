@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.avos.avoscloud.AVUser;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
@@ -28,7 +29,7 @@ public class MainActivity extends BaseActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (ClientUserManager.getInstance().obtainCurrentUser()!=null)
+                if (AVUser.getCurrentUser()!=null)
                 {
                     goToMainActivity();
                 }else{

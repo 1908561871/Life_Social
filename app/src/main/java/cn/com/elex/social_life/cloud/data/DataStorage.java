@@ -76,7 +76,7 @@ public class DataStorage {
 
     public static void addFriends(UserInfo addUser, CustomSaveCallBack saveCallBack){
 
-        AVUser user=ClientUserManager.getInstance().obtainCurrentUser();
+        AVUser user=AVUser.getCurrentUser();
         AVRelation<UserInfo> infos=user.getRelation("friends");
         infos.add(addUser);
         user.saveInBackground(saveCallBack);

@@ -5,6 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 
+import com.avos.avoscloud.AVUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +87,7 @@ public class ZoneDynamicActivity extends BaseActivity implements IZoneDynamicVie
 
     @Override
     public UserInfo getUserInfo() {
-        return ClientUserManager.getInstance().obtainCurrentUser();
+        return (UserInfo) AVUser.getCurrentUser();
     }
 
     @Override

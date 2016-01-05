@@ -34,5 +34,6 @@
 
     <dimen name="btn_height">53dp</dimen>
     <dimen name="grid_space">2dp</dimen>
+    <dimen name="emoij_grid_item">30dp</dimen>
 
 </resources>

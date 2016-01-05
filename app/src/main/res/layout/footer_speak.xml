@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
    style="@style/base_style_mw">
 
+    <RelativeLayout
+        style="@style/base_style_mw">
     <ImageView
         android:id="@+id/iv_face"
         style="@style/base_style_ww"
@@ -15,7 +18,6 @@
         android:layout_toRightOf="@id/iv_face"
         android:src="@drawable/icon_keyboard_nor"
         />
-
     <Button
         android:id="@+id/bt_send_msg"
         style="@style/sml_text_style_ww"
@@ -37,7 +39,12 @@
         android:background="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black" />
-
-</RelativeLayout>
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fl_tool"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"></FrameLayout>
+</LinearLayout>
 
 

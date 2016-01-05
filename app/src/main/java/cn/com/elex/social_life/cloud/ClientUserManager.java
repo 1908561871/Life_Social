@@ -60,7 +60,7 @@ public class ClientUserManager {
     public  void clearUserMsg(){
 
         client=null;
-
+        user=null;
     }
 
     /**

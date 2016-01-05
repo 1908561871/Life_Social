@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -14,14 +14,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 
@@ -42,17 +42,16 @@ import cn.com.elex.social_life.support.view.cjj.MaterialRefreshLayout;
 import cn.com.elex.social_life.support.view.cjj.MaterialRefreshListener;
 import cn.com.elex.social_life.ui.adapter.ChatRoomMsgAdapter;
 import cn.com.elex.social_life.ui.adapter.EmoticonsGridAdapter;
-import cn.com.elex.social_life.ui.adapter.EmoticonsPagerAdapter;
 import cn.com.elex.social_life.ui.base.BaseActivity;
+import cn.com.elex.social_life.ui.fragment.EmojiFragment;
 import cn.com.elex.social_life.ui.iview.IChatRoomView;
 import de.greenrobot.event.Subscribe;
 
 /**
  * Created by zhangweibo on 2015/11/9.
  */
-public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapter.KeyClickListener, IChatRoomView {
+public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapter.KeyClickListener, IChatRoomView, EmojiFragment.KeyClickListen {
 
-    private static final int NO_OF_EMOTICONS = 54;
     @Bind(R.id.et_content)
     EditText content;
     @Bind(R.id.recycle_view)
@@ -65,15 +64,14 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     ImageView ivKeyboard;
     @Bind(R.id.footer_input)
     LinearLayout footerInput;
-    @Bind(R.id.bottom_layout)
-    LinearLayout emoticonsCover;
     @Bind(R.id.parent_layout)
     RelativeLayout parentLayout;
+    @Bind(R.id.tv_left)
+    ImageView tvLeft;
+    @Bind(R.id.fl_tool)
+    FrameLayout toolLayout;
     private ChatRoomMsgAdapter chatRoomMsgAdapter;
     private List<AVIMMessage> messages;
-    private PopupWindow popupWindow;
-    //表情
-    private View popUpView;
 
     private boolean isKeyBoardVisible;
 
@@ -86,7 +84,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     private List<String> members;
 
-    private int pageNum=20;
+    private int pageNum = 20;
 
     private int pageSize;
 
@@ -96,11 +94,14 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     private String userName;
 
+    private float itemSize;
+
+    private FragmentTransaction transaction;
     Html.ImageGetter imageGetter = new Html.ImageGetter() {
         public Drawable getDrawable(String source) {
             Drawable d;
             d = new BitmapDrawable(getResources(), BitmapUtil.getBitmapEmojiFromAssert(source));
-            d.setBounds(0, 0, (int) (d.getIntrinsicWidth()*1.5), (int) (d.getIntrinsicHeight()*1.5));
+            d.setBounds(0, 0, (int) itemSize, (int) itemSize);
             return d;
         }
     };
@@ -110,8 +111,8 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         ButterKnife.bind(this);
-        presenter=new ChatRoomPresenter(this);
-        userName=ClientUserManager.getInstance().obtainCurrentUser().getUsername();
+        presenter = new ChatRoomPresenter(this);
+        userName = AVUser.getCurrentUser().getUsername();
         init();
     }
 
@@ -119,19 +120,17 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     public void init() {
         initData();
         createConverstation();
-        enablePopUpView();
+        initEmojiFragment();
         checkKeyboardHeight(parentLayout);
     }
 
     public void initData() {
         members = Arrays.asList(getIntent().getStringArrayExtra("member"));
         messages = new ArrayList<>();
-
-        popUpView = getLayoutInflater().inflate(R.layout.emoticons_popup, null);
-        chatRoomMsgAdapter = new ChatRoomMsgAdapter(this, messages,userName);
+        itemSize = getResources().getDimension(R.dimen.emoij_grid_item);
+        chatRoomMsgAdapter = new ChatRoomMsgAdapter(this, messages, userName);
         recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycleView.setAdapter(chatRoomMsgAdapter);
-
         refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
@@ -145,21 +144,15 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     /**
      * Defining all components of emoticons keyboard
      */
-    private void enablePopUpView() {
-        ViewPager pager = (ViewPager) popUpView.findViewById(R.id.emoticons_pager);
-        pager.setOffscreenPageLimit(3);
+    private void initEmojiFragment() {
 
-        ArrayList<String> paths = new ArrayList<String>();
-
-        for (short i = 1; i <= NO_OF_EMOTICONS; i++) {
-            paths.add(i + ".png");
-        }
-
-        EmoticonsPagerAdapter adapter = new EmoticonsPagerAdapter(this, paths, this);
-        pager.setAdapter(adapter);
-
+        transaction = getSupportFragmentManager().beginTransaction();
+        EmojiFragment emojiFragment = new EmojiFragment();
+        emojiFragment.setKeyClickListen(this);
+        transaction.replace(R.id.fl_tool, emojiFragment);
+        transaction.commit();
         // Creating a pop window for emoticons keyboard
-        popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.MATCH_PARENT,
+       /* popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) keyboardHeight, false);
         TextView backSpace = (TextView) popUpView.findViewById(R.id.back);
         backSpace.setOnClickListener(new View.OnClickListener() {
@@ -177,9 +170,8 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
             public void onDismiss() {
                 emoticonsCover.setVisibility(LinearLayout.GONE);
             }
-        });
+        });*/
     }
-
 
 
     @Override
@@ -196,12 +188,14 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
+        if (toolLayout.getVisibility()==View.VISIBLE) {
+            toolLayout.setVisibility(View.GONE);
             return false;
         } else {
             return super.onKeyDown(keyCode, event);
         }
+
+
     }
 
 
@@ -225,16 +219,15 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
                                 .getHeight();
                         int heightDifference = screenHeight - (r.bottom);
 
-                        if (previousHeightDiffrence - heightDifference > 50) {
-                            popupWindow.dismiss();
-                        }
+                        /*if (previousHeightDiffrence - heightDifference > 50) {
+                           hideToolLayout();
+                        }*/
 
                         previousHeightDiffrence = heightDifference;
                         if (heightDifference > 100) {
 
                             isKeyBoardVisible = true;
                             changeKeyboardHeight(heightDifference);
-
                         } else {
 
                             isKeyBoardVisible = false;
@@ -259,7 +252,16 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
             keyboardHeight = height;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, keyboardHeight);
-            emoticonsCover.setLayoutParams(params);
+            toolLayout.setLayoutParams(params);
+        }
+
+    }
+
+
+    public void hideToolLayout(){
+
+        if (toolLayout.getVisibility()==View.VISIBLE) {
+            toolLayout.setVisibility(View.GONE);
         }
 
     }
@@ -267,9 +269,8 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     @OnClick(R.id.et_content)
     public void clickContent() {
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        }
+
+        hideToolLayout();
     }
 
     /**
@@ -278,14 +279,14 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     @OnClick(R.id.bt_send_msg)
     public void replyContent() {
         String sp = Html.toHtml(content.getText());
-        AVIMMessage message=new AVIMMessage();
+        AVIMMessage message = new AVIMMessage();
         message.setContent(sp);
         presenter.sendMessage(message);
     }
 
     @OnClick(R.id.iv_face)
     public void clickFaceAction() {
-        if (popupWindow.isShowing()) {
+       /* if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
             popupWindow.setHeight(keyboardHeight);
@@ -295,6 +296,12 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
                 emoticonsCover.setVisibility(LinearLayout.VISIBLE);
             }
             popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
+        }*/
+        if (toolLayout.getVisibility()==View.VISIBLE){
+            toolLayout.setVisibility(View.GONE);
+        }else{
+            hideSoftInput(toolLayout);
+            toolLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -314,7 +321,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     @Override
     public void updateHistory(List<AVIMMessage> msgs) {
-        messages.addAll(0,msgs);
+        messages.addAll(0, msgs);
         chatRoomMsgAdapter.notifyDataSetChanged();
     }
 
@@ -355,26 +362,32 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      */
     @Subscribe
     public void onReceiverMessage(ChatMsgEvent event) {
-        if (event.getConversation().getConversationId().equals(conversation.getConversationId()))
-        {
+        if (event.getConversation().getConversationId().equals(conversation.getConversationId())) {
             refreshChatMsg(event.getMsg());
         }
     }
 
     /**
-     *创建对话
+     * 创建对话
      */
     public void createConverstation() {
-        ClientUserManager.getInstance().obtainCurrentClentUser().createConversation(members, "conversation", null,false,true,new CustomAVIMConversationCreatedCallback() {
+        ClientUserManager.getInstance().obtainCurrentClentUser().createConversation(members, "conversation", null, false, true, new CustomAVIMConversationCreatedCallback() {
             @Override
             protected void success(AVIMConversation avimConversation) {
                 conversation = avimConversation;
                 presenter.obtainHistory(null);
             }
+
             @Override
             protected void failure(String error) {
             }
         });
     }
 
+    @Override
+    public void onKeyClickListen(String index) {
+        Spanned cs = Html.fromHtml("<img src ='" + index + "'/>", imageGetter, null);
+        int cursorPosition = content.getSelectionStart();
+        content.getText().insert(cursorPosition, cs);
+    }
 }

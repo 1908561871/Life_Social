@@ -3,6 +3,7 @@ package cn.com.elex.social_life.model.imodel;
 import android.content.Context;
 
 import com.avos.avoscloud.AVGeoPoint;
+import com.avos.avoscloud.AVUser;
 
 import cn.com.elex.social_life.cloud.ClientUserManager;
 import cn.com.elex.social_life.model.bean.LocationMsg;
@@ -36,7 +37,7 @@ public  class MainTabModel implements IMainTabModel {
         LocationManager.getInstance().obtainCurrentLocation(new LocationCallBack() {
             @Override
             public void locSuccess(LocationMsg msg) {
-                UserInfo info=ClientUserManager.getInstance().obtainCurrentUser();
+                UserInfo info= (UserInfo) AVUser.getCurrentUser();
                 info.setGeoPoint(new AVGeoPoint(msg.getLat(),msg.getLon()));
                 info.saveInBackground(null);
             }

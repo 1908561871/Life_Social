@@ -78,7 +78,7 @@ public class PublishLogBean extends AVObject{
 
     public void setPublishUser() {
 
-        put("UserInfo",  ClientUserManager.getInstance().obtainCurrentUser());
+        put("UserInfo",  AVUser.getCurrentUser());
     }
 
     public AVUser getPublishUser() {

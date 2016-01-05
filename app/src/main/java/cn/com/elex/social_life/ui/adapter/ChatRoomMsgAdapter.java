@@ -32,11 +32,13 @@ public class ChatRoomMsgAdapter extends RecyclerView.Adapter<ChatRoomMsgAdapter.
     private List<AVIMMessage> messages;
 
     private String userName;
+
+    private int itemSize;
     Html.ImageGetter imageGetter = new Html.ImageGetter() {
         public Drawable getDrawable(String source) {
             Drawable d;
             d = new BitmapDrawable(context.getResources(), BitmapUtil.getBitmapEmojiFromAssert(source));
-            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+            d.setBounds(0, 0, itemSize, itemSize);
             return d;
         }
     };
@@ -45,6 +47,7 @@ public class ChatRoomMsgAdapter extends RecyclerView.Adapter<ChatRoomMsgAdapter.
         this.context = context;
         this.messages = messages;
         this.userName= userName;
+        itemSize= (int) context.getResources().getDimension(R.dimen.emoij_grid_item);
     }
 
     @Override
