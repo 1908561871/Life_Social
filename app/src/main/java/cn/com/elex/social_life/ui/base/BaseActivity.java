@@ -125,7 +125,13 @@ public class BaseActivity extends FragmentActivity{
 		EventBus.getDefault().unregister(this);
 		ButterKnife.unbind(this);
     }
-	
+	public void toggleSoftInput(){
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	}
+
+
 
 
     public static class SafeHandler extends Handler{

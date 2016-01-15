@@ -9,12 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -44,6 +43,7 @@ import cn.com.elex.social_life.ui.adapter.ChatRoomMsgAdapter;
 import cn.com.elex.social_life.ui.adapter.EmoticonsGridAdapter;
 import cn.com.elex.social_life.ui.base.BaseActivity;
 import cn.com.elex.social_life.ui.fragment.EmojiFragment;
+import cn.com.elex.social_life.ui.fragment.PictureSelectFragment;
 import cn.com.elex.social_life.ui.iview.IChatRoomView;
 import de.greenrobot.event.Subscribe;
 
@@ -60,7 +60,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     MaterialRefreshLayout refreshLayout;
     @Bind(R.id.iv_face)
     ImageView ivFace;
-    @Bind(R.id.iv_keyboard)
+    @Bind(R.id.iv_picture)
     ImageView ivKeyboard;
     @Bind(R.id.footer_input)
     LinearLayout footerInput;
@@ -96,7 +96,9 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     private float itemSize;
 
-    private FragmentTransaction transaction;
+    private boolean isToolNeedShow;
+
+    private boolean isAdd;
     Html.ImageGetter imageGetter = new Html.ImageGetter() {
         public Drawable getDrawable(String source) {
             Drawable d;
@@ -105,12 +107,20 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
             return d;
         }
     };
+    private EmojiFragment emojiFragment;
+
+    private PictureSelectFragment pictureSelectFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         ButterKnife.bind(this);
+        if (savedInstanceState!=null)
+        {
+            isAdd=savedInstanceState.getBoolean("isAdd",false);
+
+        }
         presenter = new ChatRoomPresenter(this);
         userName = AVUser.getCurrentUser().getUsername();
         init();
@@ -125,6 +135,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
     }
 
     public void initData() {
+
         members = Arrays.asList(getIntent().getStringArrayExtra("member"));
         messages = new ArrayList<>();
         itemSize = getResources().getDimension(R.dimen.emoij_grid_item);
@@ -145,32 +156,19 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      * Defining all components of emoticons keyboard
      */
     private void initEmojiFragment() {
+        Log.w("TAG","initEmojiFragment");
+        Log.w("TAG","isadd"+isAdd);
 
-        transaction = getSupportFragmentManager().beginTransaction();
-        EmojiFragment emojiFragment = new EmojiFragment();
-        emojiFragment.setKeyClickListen(this);
-        transaction.replace(R.id.fl_tool, emojiFragment);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        emojiFragment = new EmojiFragment();
+        pictureSelectFragment=new PictureSelectFragment();
+        transaction.add(R.id.fl_tool, pictureSelectFragment);
+        transaction.add(R.id.fl_tool, emojiFragment);
+        transaction.hide(pictureSelectFragment);
+        transaction.hide(emojiFragment);
         transaction.commit();
-        // Creating a pop window for emoticons keyboard
-       /* popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.MATCH_PARENT,
-                (int) keyboardHeight, false);
-        TextView backSpace = (TextView) popUpView.findViewById(R.id.back);
-        backSpace.setOnClickListener(new View.OnClickListener() {
+         emojiFragment.setKeyClickListen(this);
 
-            @Override
-            public void onClick(View v) {
-                KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                content.dispatchKeyEvent(event);
-            }
-        });
-
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                emoticonsCover.setVisibility(LinearLayout.GONE);
-            }
-        });*/
     }
 
 
@@ -188,6 +186,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.w("TAG","onKeyDown");
         if (toolLayout.getVisibility()==View.VISIBLE) {
             toolLayout.setVisibility(View.GONE);
             return false;
@@ -206,6 +205,7 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
     private void checkKeyboardHeight(final View parentLayout) {
 
+
         parentLayout.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -218,22 +218,25 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
                         int screenHeight = parentLayout.getRootView()
                                 .getHeight();
                         int heightDifference = screenHeight - (r.bottom);
-
-                        /*if (previousHeightDiffrence - heightDifference > 50) {
-                           hideToolLayout();
-                        }*/
+                        Log.w("checkKeyboardHeight","当前高度:"+heightDifference);
 
                         previousHeightDiffrence = heightDifference;
-                        if (heightDifference > 100) {
-
+                        //如果软键盘展开
+                        if (heightDifference > 100 && !isKeyBoardVisible) {
                             isKeyBoardVisible = true;
+                            isToolNeedShow=false;
                             changeKeyboardHeight(heightDifference);
                         } else {
-
-                            isKeyBoardVisible = false;
-
+                            //软键盘收缩
+                            if (heightDifference==0 )
+                                isKeyBoardVisible = false;
+                              if (isToolNeedShow) {
+                                  {
+                                      isToolNeedShow=false;
+                                      toolLayout.setVisibility(View.VISIBLE);
+                                  }
+                              }
                         }
-
                     }
                 });
 
@@ -259,13 +262,27 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
 
 
     public void hideToolLayout(){
-
-        if (toolLayout.getVisibility()==View.VISIBLE) {
-            toolLayout.setVisibility(View.GONE);
-        }
+        toolLayout.setVisibility(View.GONE);
 
     }
 
+
+    public void showToolLayout(){
+        if (isKeyBoardVisible)
+        {
+            isToolNeedShow=true;
+            toggleSoftInput();
+
+        }else{
+            if (toolLayout.getVisibility()!=View.VISIBLE)
+            {
+                toolLayout.setVisibility(View.VISIBLE);
+            }else{
+                toggleSoftInput();
+                hideToolLayout();
+            }
+        }
+    }
 
     @OnClick(R.id.et_content)
     public void clickContent() {
@@ -282,27 +299,57 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         AVIMMessage message = new AVIMMessage();
         message.setContent(sp);
         presenter.sendMessage(message);
+
     }
+
+    /**
+     * 选择照片
+     */
+    @OnClick(R.id.iv_picture)
+    public void selectPicture(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (toolLayout.getVisibility()==View.GONE ){
+            transaction.hide(emojiFragment);
+            transaction.show(pictureSelectFragment);
+            transaction.commit();
+            isToolNeedShow=true;
+            showToolLayout();
+        }else if (pictureSelectFragment.isHidden())
+        {
+            transaction.hide(emojiFragment);
+            transaction.show(pictureSelectFragment);
+            transaction.commit();
+        }else if (pictureSelectFragment.isVisible())
+        {
+            showToolLayout();
+
+        }
+
+    }
+
+
 
     @OnClick(R.id.iv_face)
     public void clickFaceAction() {
-       /* if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        } else {
-            popupWindow.setHeight(keyboardHeight);
-            if (isKeyBoardVisible) {
-                emoticonsCover.setVisibility(LinearLayout.GONE);
-            } else {
-                emoticonsCover.setVisibility(LinearLayout.VISIBLE);
-            }
-            popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
-        }*/
-        if (toolLayout.getVisibility()==View.VISIBLE){
-            toolLayout.setVisibility(View.GONE);
-        }else{
-            hideSoftInput(toolLayout);
-            toolLayout.setVisibility(View.VISIBLE);
-        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+       if (toolLayout.getVisibility()==View.GONE){
+           transaction.hide(pictureSelectFragment);
+           transaction.show(emojiFragment);
+           transaction.commit();
+           isToolNeedShow=true;
+            showToolLayout();
+        }else if (emojiFragment.isHidden())
+        {
+            transaction.hide(pictureSelectFragment);
+            transaction.show(emojiFragment);
+            transaction.commit();
+
+        }else if (emojiFragment.isVisible())
+       {
+           showToolLayout();
+
+       }
 
     }
 
@@ -389,5 +436,19 @@ public class ChatRoomActivity extends BaseActivity implements EmoticonsGridAdapt
         Spanned cs = Html.fromHtml("<img src ='" + index + "'/>", imageGetter, null);
         int cursorPosition = content.getSelectionStart();
         content.getText().insert(cursorPosition, cs);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.w("TAG","onSaveInstanceState");
+        outState.putBoolean("isAdd",isAdd);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.w("TAG","onDestroy");
+        super.onDestroy();
     }
 }

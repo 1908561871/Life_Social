@@ -1,6 +1,5 @@
 package cn.com.elex.social_life.cloud.im.message;
 
-import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/base_style_mw">
+        <LinearLayout
+            style="@style/sml_text_style_ww"
+            android:padding="5dp"
+            android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_picture"
+            />
+           <TextView
+               android:layout_marginTop="5dp"
+               style="@style/sml_text_style_ww"
+               android:text="@string/photo_album"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/sml_text_style_ww"
+            android:padding="5dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_xiangji"
+                />
+            <TextView
+                android:layout_marginTop="5dp"
+                style="@style/sml_text_style_ww"
+                android:text="@string/camera"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
